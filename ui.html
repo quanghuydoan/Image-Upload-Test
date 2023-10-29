@@ -1,0 +1,101 @@
+<!--Header-->
+<h1>Change frame image fill</h1>
+
+<!--Asks user for a key word-->
+<label for='keyword-input'>
+  Key Word
+  <input required id="keyword-input" type="text" placeholder="Frame name insert here" />
+</label>
+
+<div>
+  <input type="file" id="imageInput" accept="image/*">
+</div>
+<div>
+  <button id="uploadButton">Upload Image</button>
+</div>
+
+<div>
+  <button id="applyImage">Apply Image</button>
+  <input type="text" id="imageLink" placeholder="Image URL">
+</div>
+
+<style>
+  body {
+    font-family: sans-serif;
+  }
+
+  p {
+    color: #777777;
+  }
+
+  label {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+    width: 75%;
+    font-weight: 600;
+  }
+
+  input {
+    font-size: 14px;
+    margin-top: 3px;
+    border-style: none;
+    border-bottom-style: solid;
+    outline: none;
+    font-weight: 600;
+  }
+
+  button {
+    margin-top: 20px;
+    padding: 10px;
+    font-weight: 700;
+  }
+</style>
+
+<script>
+
+  // Creates variables that allow us to access the HTML components
+  // const hexInput = document.getElementById('hex-input');
+  // const frameName = document.getElementById('keyword-input').value;
+  const uploadButton = document.getElementById('uploadButton');
+  // const imageInput = document.getElementById('imageInput');
+  const frameName = document.getElementById('keyword-input').value;
+  const imageInput = document.getElementById('imageInput');
+  imageInput.willReadFrequently = true;
+  // imageInput.addEventListener('change', async () => {
+  //   const file = imageInput.files[0];
+  //   if (file) {
+  //     const fileBuffer = await readFileAsArrayBuffer(file);
+  //     console.log(fileBuffer);
+  //     console.log(frameName);
+  //     parent.postMessage({ pluginMessage: { type: 'uploadImage', data: { frameName: 'Key Visual Insert Here', fileBuffer } } }, '*');
+  //   }
+  // });
+
+  console.log(frameName);
+
+  //try the upload button function
+  uploadButton.addEventListener('click', async () => {
+    const file = imageInput.files[0];
+    if (file) {
+      const fileBuffer = await readFileAsArrayBuffer(file);
+      console.log(fileBuffer);
+      console.log(frameName);
+      parent.postMessage({ pluginMessage: { type: 'uploadImage', data: { frameName :'Key Visual Insert Here', fileBuffer } } }, '*');
+    }
+  });
+
+  // Helper function to read a file as ArrayBuffer
+  function readFileAsArrayBuffer(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        resolve(event.target.result);
+      };
+      reader.onerror = reject;
+      reader.readAsArrayBuffer(file);
+    });
+  }
+
+</script>
